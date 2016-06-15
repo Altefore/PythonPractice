@@ -7,6 +7,32 @@ import random
 
 gameOver = False
 
+class player():
+    
+    player_name = ''
+    player_team = ''
+    
+    def __init__(self, name, team):
+        self.player_name = name
+        self.player_team = team
+    
+    
+    def setTeam(self, string):
+        self.player_team = string
+    
+    def getTeam(self):
+        return self.player_team
+    
+    def setName(self,string):
+        self.player_name = string
+        
+    def getName(self):
+        return self.player_name
+        
+class computer():
+    #TODO
+    pass
+
 def main():
     
     ready = ''
@@ -23,53 +49,58 @@ def main():
         
     elif ready.lower() == 'y':
         print("Great!")
-        newGameComputer()
+        newGame()
         
     else:
         print("Not quite sure what you meant by that...")
         exit()
     
-def newGameComputer():
+def newGame():
     
-    player1 = ''
-    computer = ''
-    board = [' '] * 10
+    player1 = player("Player 1","X")
+    player2 = player("Player 2","O")
+    board = ['.'] +[' '] * 9
     
-    print("Would you like to be X's or O's? (X/O):")
-   
-    player1 = input()
-    
-    #//TODO what happens if not x or o
-    
-    if not isinstance(player1,str): 
-        print("Not quite sure what you meant by that...")
-        print("Let's just make you team X!")
-        player1 = 'X'
-        
-    elif player1.lower() == 'x':
-        print("Good choice!")
-        computer = 'O'
-        
-    else:
-        print("Good choice!")
-        computer = 'X'
+    print("Player 1 is 'X', Player 2 is 'O'")
     
     if random.randint(1,2) == 1:
-        print("You go first this time!")
-        gameLoop(board, player1, computer)
+        print("%s goes first this time!" % player1.getName())
+        gameLoop(board, player1, player2)
     
     else:
-        print("The Computer goes first this time!")
-        computerMove(board, player1, computer)
+        print("%s goes first this time!" % player2.getName())
+        gameLoop(board, player2, player1)
     
 
 def markBoard(board, player, placement):
-    board[placement] = player
+    board[placement] = player.getTeam()
+    
+def move(board, player):
+        
+        print("Enter 1-9 to place your mark on the board.")
+        
+        userInput = input()
+        
+        if isinstance(userInput,int):
+            if 0 < userInput and userInput < 10:
+                if board[userInput] == ' ':
+                    board[userInput] = player.player_team
+                    #return board
+                else:
+                    print("This spot is already taken. Try again...")
+                    move(board,player)
+            else:
+                print("Please a number 1 through 9 inclusive...")
+                move(board,player)
+        else:
+            print("Please enter an integer...")
+            move(board,player)
 
-def printBoard(board, player1, player2):
-
+def printBoard(board):
+    
+    print("")
     print('   |   |')
-    print(' ' + board[7] + ' | ' + board[8] + ' | ' + board[9])
+    print(' ' + board[1] + ' | ' + board[2] + ' | ' + board[3])
     print('   |   |')
     print('-----------')
     print('   |   |')
@@ -77,39 +108,28 @@ def printBoard(board, player1, player2):
     print('   |   |')
     print('-----------')
     print('   |   |')
-    print(' ' + board[1] + ' | ' + board[2] + ' | ' + board[3])
+    print(' ' + board[7] + ' | ' + board[8] + ' | ' + board[9])
     print('   |   |')
-    
+    print("")
     
 def checkForWinner(board, player):
     global gameOver
     if not ' ' in board:
-        tieGame()
+        print("Looks like theres no more places to go! Tie game!!")
+        gameOver = True
+        return
     #TODO: Other conditions to win
-
-def userMove(board, player):
-    print("Enter 1-9 to place your mark on the board.")
-    userInput = input()
-    if isinstance(userInput,int):
-        if 0 < userInput and userInput < 10:
-            if board[userInput] == ' ':
-                
-        else:
-            print("Please a number 1 through 9 inclusive...")
-    else:
-        print("Please enter an integer...")
-        
         
 def gameLoop(board, player1, player2):
     global gameOver
     while not gameOver:
-        printBoard(board,player1,player2)
-        userMove(board, player1)
+        printBoard(board)
+        move(board,player1)
         checkForWinner(board, player1)
-        printBoard(board,player1,player2)
-        computerMove(board, player2)
-def tieGame():
-    pass
+        printBoard(board)
+        move(board, player2)
+        checkForWinner(board, player2)
+    
 
 if __name__ == "__main__":
     main()
