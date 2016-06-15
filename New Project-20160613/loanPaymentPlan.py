@@ -1,5 +1,5 @@
 #simple payment calculator for loan interest
-#not perfect yet
+#not perfect yet still works though
 
 from sys import exit
 import math
