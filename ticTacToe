@@ -39,6 +39,8 @@ def newGameComputer():
    
     player1 = input()
     
+    #//TODO what happens if not x or o
+    
     if not isinstance(player1,str): 
         print("Not quite sure what you meant by that...")
         print("Let's just make you team X!")
@@ -61,7 +63,7 @@ def newGameComputer():
         computerMove(board, player1, computer)
     
 
-def playerMove(board, player, placement):
+def markBoard(board, player, placement):
     board[placement] = player
 
 def printBoard(board, player1, player2):
@@ -84,16 +86,28 @@ def checkForWinner(board, player):
     if not ' ' in board:
         tieGame()
     #TODO: Other conditions to win
-    
 
+def userMove(board, player):
+    print("Enter 1-9 to place your mark on the board.")
+    userInput = input()
+    if isinstance(userInput,int):
+        if 0 < userInput and userInput < 10:
+            if board[userInput] == ' ':
+                
+        else:
+            print("Please a number 1 through 9 inclusive...")
+    else:
+        print("Please enter an integer...")
+        
+        
 def gameLoop(board, player1, player2):
     global gameOver
     while not gameOver:
         printBoard(board,player1,player2)
+        userMove(board, player1)
         checkForWinner(board, player1)
-        checkForWinner(board, player2)
-        userMove(board, player1, player2)
-
+        printBoard(board,player1,player2)
+        computerMove(board, player2)
 def tieGame():
     pass
 
