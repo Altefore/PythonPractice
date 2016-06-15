@@ -1,0 +1,101 @@
+#Tic Tac Toe
+#Jonathan Light
+#Practice with Python
+
+from sys import exit
+import random
+
+gameOver = False
+
+def main():
+    
+    ready = ''
+    #multiplayer = 'n'
+    
+    print("Hello! Welcome to Tic Tac Toe!")    
+    print("In this game you will play against the computer.")
+    print("Are you ready to start? (y/n):")
+    
+    ready = input()
+    
+    if ready.lower() == 'n':
+        exit()
+        
+    elif ready.lower() == 'y':
+        print("Great!")
+        newGameComputer()
+        
+    else:
+        print("Not quite sure what you meant by that...")
+        exit()
+    
+def newGameComputer():
+    
+    player1 = ''
+    computer = ''
+    board = [' '] * 10
+    
+    print("Would you like to be X's or O's? (X/O):")
+   
+    player1 = input()
+    
+    if not isinstance(player1,str): 
+        print("Not quite sure what you meant by that...")
+        print("Let's just make you team X!")
+        player1 = 'X'
+        
+    elif player1.lower() == 'x':
+        print("Good choice!")
+        computer = 'O'
+        
+    else:
+        print("Good choice!")
+        computer = 'X'
+    
+    if random.randint(1,2) == 1:
+        print("You go first this time!")
+        gameLoop(board, player1, computer)
+    
+    else:
+        print("The Computer goes first this time!")
+        computerMove(board, player1, computer)
+    
+
+def playerMove(board, player, placement):
+    board[placement] = player
+
+def printBoard(board, player1, player2):
+
+    print('   |   |')
+    print(' ' + board[7] + ' | ' + board[8] + ' | ' + board[9])
+    print('   |   |')
+    print('-----------')
+    print('   |   |')
+    print(' ' + board[4] + ' | ' + board[5] + ' | ' + board[6])
+    print('   |   |')
+    print('-----------')
+    print('   |   |')
+    print(' ' + board[1] + ' | ' + board[2] + ' | ' + board[3])
+    print('   |   |')
+    
+    
+def checkForWinner(board, player):
+    global gameOver
+    if not ' ' in board:
+        tieGame()
+    #TODO: Other conditions to win
+    
+
+def gameLoop(board, player1, player2):
+    global gameOver
+    while not gameOver:
+        printBoard(board,player1,player2)
+        checkForWinner(board, player1)
+        checkForWinner(board, player2)
+        userMove(board, player1, player2)
+
+def tieGame():
+    pass
+
+if __name__ == "__main__":
+    main()
