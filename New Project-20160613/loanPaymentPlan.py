@@ -2,6 +2,7 @@
 #not perfect yet
 
 from sys import exit
+import math
 
 def main():
 
@@ -29,19 +30,25 @@ def main():
 
 def calculatePayments(total,term):
     payments = term*12
-    paymentAmount = float(total)/payments
+    paymentAmount = math.ceil(float(total)/payments)
     remaining = total
     printGrid(payments,paymentAmount,remaining)
     
     
 def printGrid(payments,paymentAmount,remaining):
-    count = 1
+    count = 0
     print("\n\t\t\tAmount\t\tRemaining\n\tPymt#\t\tPaid\t\tBalance")
     print("\t-----\t\t------\t\t---------")
     while count <= payments:
+        if remaining < paymentAmount:
+            paymentAmount = remaining
+            remaining -= paymentAmount
+            print("\t%d\t\t$%.2f\t\t$%.2f" % (count,paymentAmount,remaining))
+            if remaining == 0:
+                break
+        else:
+            print("\t%d\t\t$%.2f\t\t$%.2f" % (count,paymentAmount,remaining))
         remaining -= paymentAmount
-        #if remaining < paymentAmount
-        print("\t%d\t\t$%.2f\t\t$%.2f" % (count,paymentAmount,remaining))
         count += 1
 
 if __name__ == "__main__":
