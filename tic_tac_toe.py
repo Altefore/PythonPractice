@@ -114,10 +114,22 @@ def printBoard(board):
     
 def checkForWinner(board, player):
     global gameOver
+    team = player.getTeam()
     if not ' ' in board:
         print("Looks like theres no more places to go! Tie game!!")
         gameOver = True
         return
+    if ((board[1] == team and board[4] == team and board[7] == team) or #first column
+    (board[2] == team and board[5] == team and board[8] == team) or #second column 
+    (board[3] == team and board[6] == team and board[9] == team) or #third column
+    (board[1] == team and board[2] == team and board[3] == team) or
+    (board[4] == team and board[5] == team and board[6] == team) or
+    (board[7] == team and board[8] == team and board[9] == team) or
+    (board[1] == team and board[5] == team and board[9] == team) or
+    (board[7] == team and board[5] == team and board[3] == team)):
+        print("%s wins!!" %player.getName())
+        gameOver = True
+    
     #TODO: Other conditions to win
         
 def gameLoop(board, player1, player2):
